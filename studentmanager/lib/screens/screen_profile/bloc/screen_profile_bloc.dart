@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:studentmanager/model/user_model.dart';
+
+
+
+
 
 part 'screen_profile_event.dart';
 part 'screen_profile_state.dart';
@@ -15,6 +20,7 @@ class ScreenProfileBloc extends Bloc<ScreenProfileEvent, ScreenProfileState> {
     on<FetchAge>(_onFetchAgeEvent);
     on<FetchImg>(_onFetchImgEvent);
     on<FetchUserModelList>(_onFetchUserModelListEvent);
+    on<ResetTextAndImage>(_onResetTextAndImage);
   }
 
   FutureOr<void> _onFetchNameEvent(
@@ -50,4 +56,11 @@ class ScreenProfileBloc extends Bloc<ScreenProfileEvent, ScreenProfileState> {
     // print(updatedUserModelList[0].name);
     emit(state.copyWith(userModelList: updatedUserModelList));
   }
+
+  FutureOr<void> _onResetTextAndImage(
+      ResetTextAndImage event, Emitter<ScreenProfileState> emit) async {
+    emit(state.copyWith(name: '', age: null, img: null));
+  }
+  
+
 }

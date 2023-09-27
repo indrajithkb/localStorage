@@ -39,121 +39,124 @@ class _ScreenprofileState extends State<Screenprofile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Form(
-          key: _formKey,
-          child: BlocBuilder<ScreenProfileBloc, ScreenProfileState>(
-            builder: (context, state) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: _pickedImage == null
-                              ? const DecorationImage(
-                                  image: AssetImage(
-                                      'assets/image/defaultpropic.jpeg'),
-                                  fit: BoxFit.cover)
-                              : DecorationImage(
-                                  image: FileImage(state.img!),
-                                  fit: BoxFit.cover),
-                          border: Border.all(
-                            color: Colors.black, // Set the color of the border
-                            width: .5, // Set the width of the border
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blueGrey,
+          automaticallyImplyLeading: false,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Form(
+            key: _formKey,
+            child: BlocBuilder<ScreenProfileBloc, ScreenProfileState>(
+              builder: (context, state) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: _pickedImage == null
+                                ? const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/image/defaultpropic.jpeg'),
+                                    fit: BoxFit.cover)
+                                : DecorationImage(
+                                    image: FileImage(state.img!),
+                                    fit: BoxFit.cover),
+                            border: Border.all(
+                              color:
+                                  Colors.black, // Set the color of the border
+                              width: .5, // Set the width of the border
+                            ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                          left: 70,
-                          bottom: 5,
-                          child: InkWell(
-                              onTap: () {
-                                _pickImage(ImageSource.camera);
-                              },
-                              child: const Icon(Icons.add_a_photo)))
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  commonTextField(
-                    ctlr: nameController,
-                    text: 'Name',
-                    isObscure: false,
-                    isPasswordType: false,
-                    onChanged: (val) async {
-                      context
-                          .read<ScreenProfileBloc>()
-                          .add(FetchName(name: val));
-                    },
-                    onValidate: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your name';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  commonTextField(
-                    ctlr: ageController,
-                    text: 'Age',
-                    isObscure: false,
-                    isPasswordType: false,
-                    onChanged: (val) {
-                      int? age = int.tryParse(val);
-                      if (age != null) {
+                        Positioned(
+                            left: 70,
+                            bottom: 5,
+                            child: InkWell(
+                                onTap: () {
+                                  _pickImage(ImageSource.camera);
+                                },
+                                child: const Icon(Icons.add_a_photo)))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    commonTextField(
+                      ctlr: nameController,
+                      text: 'Name',
+                      isObscure: false,
+                      isPasswordType: false,
+                      onChanged: (val) async {
                         context
                             .read<ScreenProfileBloc>()
-                            .add(FetchAge(age: age));
-                      }
-                    },
-                    onValidate: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your age';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        if (onValidate() && _pickedImage != null) {
+                            .add(FetchName(name: val));
+                      },
+                      onValidate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    commonTextField(
+                      ctlr: ageController,
+                      text: 'Age',
+                      isObscure: false,
+                      isPasswordType: false,
+                      onChanged: (val) {
+                        int? age = int.tryParse(val);
+                        if (age != null) {
                           context
                               .read<ScreenProfileBloc>()
-                              .add(FetchUserModelList());
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ScreenHome()
-                                    
-                              ));
-                        } else if (onValidate() && _pickedImage == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('add image')));
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('add age')));
-                          print('not validated');
+                              .add(FetchAge(age: age));
                         }
                       },
-                      child: const Text('Submit'))
-                ],
-              );
-            },
+                      onValidate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your age';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          if (onValidate() && _pickedImage != null) {
+                            context
+                                .read<ScreenProfileBloc>()
+                                .add(FetchUserModelList());
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenHome()));
+                          } else if (onValidate() && _pickedImage == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('add image')));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('add age')));
+                            print('not validated');
+                          }
+                        },
+                        child: const Text('Submit'))
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

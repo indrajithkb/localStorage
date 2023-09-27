@@ -1,7 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'screen_profile_bloc.dart';
+ 
+ 
+ 
+
 
 class ScreenProfileState extends Equatable {
+ 
   String name;
   int age;
   File? img;

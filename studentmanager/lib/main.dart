@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:studentmanager/screens/screen_home/view/screen_home.dart';
 import 'package:studentmanager/screens/screen_profile/bloc/screen_profile_bloc.dart';
-import 'package:studentmanager/screens/screen_profile/view/screen_profile.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getApplicationDocumentsDirectory(),
+  );
   runApp(const MyApp());
 }
 
@@ -22,7 +28,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Screenprofile(),
+        home: const ScreenHome(),
       ),
     );
   }

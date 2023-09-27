@@ -30,3 +30,5 @@ class FetchUserModelList extends ScreenProfileEvent {
   // List<UserModel>updatedList;
   // FetchUserModelList({required this.updatedList});
 }
+
+class ResetTextAndImage extends ScreenProfileEvent{}
