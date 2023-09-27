@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentmanager/screens/screen_home/view/screen_home.dart';
@@ -7,9 +8,11 @@ import 'package:studentmanager/screens/screen_profile/bloc/screen_profile_bloc.d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
-  );
+  var dir=await getApplicationDocumentsDirectory();
+  Hive.init(dir.path);
+  // HydratedBloc.storage = await HydratedStorage.build(
+  //   storageDirectory: await getApplicationDocumentsDirectory(),
+  // );
   runApp(const MyApp());
 }
 
