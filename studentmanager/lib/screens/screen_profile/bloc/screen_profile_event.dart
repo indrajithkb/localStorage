@@ -21,14 +21,31 @@ class FetchAge extends ScreenProfileEvent {
   });
 }
 
-class FetchImg extends ScreenProfileEvent {
-  File img;
-  FetchImg({required this.img});
-}
+// class FetchImg extends ScreenProfileEvent {
+//   File img;
+//   FetchImg({required this.img});
+// }
 
 class FetchUserModelList extends ScreenProfileEvent {
   // List<UserModel>updatedList;
   // FetchUserModelList({required this.updatedList});
 }
 
-class ResetTextAndImage extends ScreenProfileEvent{}
+class ResetTextAndImage extends ScreenProfileEvent {}
+
+class DeleteUser extends ScreenProfileEvent {
+  int idx;
+  DeleteUser({required this.idx});
+}
+
+class EditUser extends ScreenProfileEvent {
+  int idx;
+  String name;
+  int age;
+  EditUser({required this.idx, required this.name, required this.age});
+}
+
+class UserIndex extends ScreenProfileEvent {
+  int ind;
+  UserIndex({required this.ind});
+}
