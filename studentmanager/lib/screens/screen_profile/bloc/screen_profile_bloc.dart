@@ -53,7 +53,7 @@ class ScreenProfileBloc
     List<UserModel> updatedUserModelList = List.from(state.userModelList);
     updatedUserModelList.add(
       UserModel(
-        name: state.name, age: state.age,
+        name: state.name, age: state.age,img: state.img
         //  img: state.imgikv
       ),
     );
@@ -63,7 +63,7 @@ class ScreenProfileBloc
 
   FutureOr<void> _onResetTextAndImage(
       ResetTextAndImage event, Emitter<ScreenProfileState> emit) async {
-    emit(state.copyWith(name: '', age: null, img: null));
+    emit(state.copyWith(name: '', age: null, img: ''));
   }
 
   FutureOr<void> _onDeleteUserEvent(
@@ -82,6 +82,8 @@ class ScreenProfileBloc
       updatedUserModelList[event.idx] = UserModel(
         name: event.name,
         age: event.age,
+        img: event.img
+     
         // Update other properties as needed
       );
     }

@@ -81,7 +81,7 @@ class _ScreenprofileState extends State<Screenprofile> {
                         radius: 52,
                         backgroundColor: Colors.transparent,
                         child: ClipOval(
-                            child: state.img == null
+                            child: state.img == ''
                                 ? Image.asset(
                                     'assets/image/defaultpropic.jpeg',
                                     fit: BoxFit.cover,
@@ -205,9 +205,11 @@ class _ScreenprofileState extends State<Screenprofile> {
                             if (widget.isEdited == true) {
                               if (state.selectedUserIndex != -1) {
                                 context.read<ScreenProfileBloc>().add(EditUser(
-                                    idx: state.selectedUserIndex,
-                                    name: state.name,
-                                    age: state.age));
+                                      idx: state.selectedUserIndex,
+                                      name: state.name,
+                                      age: state.age,
+                                      img: state.img!
+                                    ));
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(

@@ -42,7 +42,8 @@ class EditUser extends ScreenProfileEvent {
   int idx;
   String name;
   int age;
-  EditUser({required this.idx, required this.name, required this.age});
+  String img;
+  EditUser({required this.idx, required this.name, required this.age,required this.img});
 }
 
 class UserIndex extends ScreenProfileEvent {

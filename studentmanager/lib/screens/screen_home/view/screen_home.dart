@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studentmanager/screens/screen_profile/bloc/screen_profile_bloc.dart';
 import 'package:studentmanager/screens/screen_profile/view/screen_profile.dart';
+
 // int selectedUserIndex = -1;
 class ScreenHome extends StatefulWidget {
   const ScreenHome({super.key});
@@ -41,16 +44,16 @@ class _ScreenHomeState extends State<ScreenHome> {
                   itemCount: dataList.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      // leading: Container(
-                      //   height: 100,
-                      //   width: 100,
-                      //   decoration: BoxDecoration(
-                      //     shape: BoxShape.circle,
-                      //     image: DecorationImage(
-                      //         image: FileImage(dataList[index].img!),
-                      //         fit: BoxFit.cover),
-                      //   ),
-                      // ),
+                      leading: CircleAvatar(
+                          radius: 52,
+                          backgroundColor: Colors.transparent,
+                          child: ClipOval(
+                              child: Image.file(
+                            File(dataList[index].img.toString()),
+                            fit: BoxFit.cover,
+                            height: 60,
+                            width: 60,
+                          ))),
                       title: Text(dataList[index].name.toString()),
                       subtitle: Text(dataList[index].age.toString()),
                       trailing: SizedBox(
@@ -69,14 +72,20 @@ class _ScreenHomeState extends State<ScreenHome> {
                                 onPressed: () {
                                   // setState(() {
                                   //   selectedUserIndex = index;
-                            
+
                                   // });
-                                  context.read<ScreenProfileBloc>().add(UserIndex(ind: index));
-                                  context.read<ScreenProfileBloc>().add(
-                                      EditUser(idx: index,
-                                          name: dataList[index].name.toString(),
-                                          age: dataList[index].age!));
-                                         
+                                  context
+                                      .read<ScreenProfileBloc>()
+                                      .add(UserIndex(ind: index));
+                                  context
+                                      .read<ScreenProfileBloc>()
+                                      .add(EditUser(
+                                        idx: index,
+                                        name: dataList[index].name.toString(),
+                                        age: dataList[index].age!,
+                                        img: dataList[index].img.toString(),
+                                      ));
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
