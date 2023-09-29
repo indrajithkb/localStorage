@@ -6,13 +6,14 @@ class ScreenProfileState extends Equatable {
   String name;
   int age;
   int selectedUserIndex;
+  String? img;
   // File? img;
   List<UserModel> userModelList;
   ScreenProfileState(
       {this.name = '',
       this.age = 0,
       this.selectedUserIndex = -1,
-      // this.img,
+      this.img,
       this.userModelList = const []});
   // Named constructor to create an instance from a map
   factory ScreenProfileState.fromJson(Map<String, dynamic> json) =>
@@ -27,20 +28,20 @@ class ScreenProfileState extends Equatable {
   @override
   List<Object?> get props => [
         name, age, selectedUserIndex,
-        //  img,
+         img,
         userModelList
       ];
 
   ScreenProfileState copyWith(
       {String? name,
       int? age,
-      File? img,
+     String? img,
       int? selectedUserIndex,
       List<UserModel>? userModelList}) {
     return ScreenProfileState(
         name: name ?? this.name,
         age: age ?? this.age,
-        // img: img ?? this.img,
+        img: img ?? this.img,
         selectedUserIndex: selectedUserIndex ?? this.selectedUserIndex,
         userModelList: userModelList ?? this.userModelList);
   }

@@ -21,10 +21,10 @@ class FetchAge extends ScreenProfileEvent {
   });
 }
 
-// class FetchImg extends ScreenProfileEvent {
-//   File img;
-//   FetchImg({required this.img});
-// }
+class FetchImg extends ScreenProfileEvent {
+  String img;
+  FetchImg({required this.img});
+}
 
 class FetchUserModelList extends ScreenProfileEvent {
   // List<UserModel>updatedList;

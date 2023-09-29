@@ -16,7 +16,7 @@ class ScreenProfileBloc
   ScreenProfileBloc() : super(ScreenProfileState()) {
     on<FetchName>(_onFetchNameEvent);
     on<FetchAge>(_onFetchAgeEvent);
-    // on<FetchImg>(_onFetchImgEvent);
+    on<FetchImg>(_onFetchImgEvent);
     on<FetchUserModelList>(_onFetchUserModelListEvent);
     on<ResetTextAndImage>(_onResetTextAndImage);
     on<DeleteUser>(_onDeleteUserEvent);
@@ -38,13 +38,13 @@ class ScreenProfileBloc
     print(event.age);
   }
 
-  // FutureOr<void> _onFetchImgEvent(
-  //     FetchImg event, Emitter<ScreenProfileState> emit) {
-  //   emit(state.copyWith(
-  //     img: event.img,
-  //   ));
-  //   print(event.img);
-  // }
+  FutureOr<void> _onFetchImgEvent(
+      FetchImg event, Emitter<ScreenProfileState> emit) {
+    emit(state.copyWith(
+      img: event.img,
+    ));
+    print(event.img);
+  }
 
   FutureOr<void> _onFetchUserModelListEvent(
     FetchUserModelList event,

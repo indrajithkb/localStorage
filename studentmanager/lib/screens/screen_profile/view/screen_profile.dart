@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:studentmanager/common_widgets/common_textformfield.dart';
 import 'package:studentmanager/model/user_model.dart';
 import 'package:studentmanager/screens/screen_home/view/screen_home.dart';
@@ -19,27 +20,36 @@ class Screenprofile extends StatefulWidget {
 class _ScreenprofileState extends State<Screenprofile> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // File? _pickedImage;
+  // var image;
 
-  // Future<void> _pickImage(ImageSource source) async {
-  //   final picker = ImagePicker();
-  //   final pickedImage = await picker.pickImage(source: ImageSource.camera);
+  Future<void> _captureImage() async {
+    final picker = ImagePicker();
+    final XFile? pickedImage =
+        await picker.pickImage(source: ImageSource.camera);
 
-  //   if (pickedImage != null) {
-  //     _pickedImage = File(pickedImage.path);
-  //     context.read<ScreenProfileBloc>().add(FetchImg(img: _pickedImage!));
-  //     // setState(() {
-  //     //   _pickedImage = File(pickedImage.path);
-  //     // });
-  //   }
-  // }
+    if (pickedImage != null) {
+      _saveImageToLocalFile(File(pickedImage.path));
 
-  // var pic;
-  // var photo;
-  // Future getImage() async {
-  //   XFile? _image = await ImagePicker().pickImage(source: ImageSource.camera);
-  //   return _image!.path;
-  // }
+      // setState(() {
+      //   image = pickedImage.path;
+      // });
+    } else {
+      // Handle when no image is selected
+      return;
+    }
+  }
+
+  Future<void> _saveImageToLocalFile(File imageFile) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final timestamp =
+        DateTime.now().millisecondsSinceEpoch; // Get a unique timestamp
+    final imagePath = '${directory.path}/captured_image_$timestamp.png';
+    context.read<ScreenProfileBloc>().add(FetchImg(img: imagePath));
+    await imageFile.copy(imagePath);
+
+    // Do something with the saved image path, such as displaying it or storing it in a database.
+    print('Image saved to: $imagePath');
+  }
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
@@ -62,46 +72,47 @@ class _ScreenprofileState extends State<Screenprofile> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // CircleAvatar(
-                    //     radius: 52,
-                    //     backgroundColor: Colors.transparent,
-                    //     child: ClipOval(
-                    //         child: photo == null
-                    //             ? Image.asset(
-                    //                 'assets/image/defaultpropic.jpeg',
-                    //                 fit: BoxFit.cover,
-                    //                 height: 135,
-                    //                 width: 135,
-                    //               )
-                    //             : Image.file(
-                    //                 File(photo),
-                    //                 fit: BoxFit.cover,
-                    //                 height: 135,
-                    //                 width: 135,
-                    //               ))),
-
-                    // SizedBox(height: 5),
-                    // ElevatedButton.icon(
-                    //     style: ButtonStyle(
-                    //       backgroundColor: MaterialStateProperty.all(
-                    //           Color.fromARGB(255, 5, 9, 10)),
-                    //     ),
-                    //     icon: Icon(
-                    //       Icons.image,
-                    //       color: Color.fromARGB(255, 32, 57, 61),
-                    //       size: 10.0,
-                    //     ),
-                    //     label: Text(
-                    //       'Image',
-                    //       style: TextStyle(color: Colors.blueGrey),
-                    //     ),
+                    // ElevatedButton(
                     //     onPressed: () async {
-                    //       pic = await getImage();
-                    //       setState(() {
-                    //         photo = pic;
-                    //       });
+                    //       _captureImage();
+                    //     },
+                    //     child: Text('saveImage')),
+                    CircleAvatar(
+                        radius: 52,
+                        backgroundColor: Colors.transparent,
+                        child: ClipOval(
+                            child: state.img == null
+                                ? Image.asset(
+                                    'assets/image/defaultpropic.jpeg',
+                                    fit: BoxFit.cover,
+                                    height: 135,
+                                    width: 135,
+                                  )
+                                : Image.file(
+                                    File(state.img!),
+                                    fit: BoxFit.cover,
+                                    height: 135,
+                                    width: 135,
+                                  ))),
 
-                    //     }),
+                    SizedBox(height: 5),
+                    ElevatedButton.icon(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Color.fromARGB(255, 5, 9, 10)),
+                        ),
+                        icon: Icon(
+                          Icons.image,
+                          color: Color.fromARGB(255, 32, 57, 61),
+                          size: 10.0,
+                        ),
+                        label: Text(
+                          'Image',
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                        onPressed: () async {
+                          _captureImage();
+                        }),
                     // Stack(
                     //   children: [
                     //     Container(
