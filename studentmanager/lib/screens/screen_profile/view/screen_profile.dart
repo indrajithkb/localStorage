@@ -101,7 +101,6 @@ class _ScreenprofileState extends State<Screenprofile> {
                     //         photo = pic;
                     //       });
 
-                    //       // pickedImage.value =pic;
                     //     }),
                     // Stack(
                     //   children: [
