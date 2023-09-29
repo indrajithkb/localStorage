@@ -72,11 +72,6 @@ class _ScreenprofileState extends State<Screenprofile> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // ElevatedButton(
-                    //     onPressed: () async {
-                    //       _captureImage();
-                    //     },
-                    //     child: Text('saveImage')),
                     CircleAvatar(
                         radius: 52,
                         backgroundColor: Colors.transparent,
@@ -94,57 +89,24 @@ class _ScreenprofileState extends State<Screenprofile> {
                                     height: 135,
                                     width: 135,
                                   ))),
-
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     ElevatedButton.icon(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Color.fromARGB(255, 5, 9, 10)),
+                              const Color.fromARGB(255, 5, 9, 10)),
                         ),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.image,
                           color: Color.fromARGB(255, 32, 57, 61),
                           size: 10.0,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Image',
                           style: TextStyle(color: Colors.blueGrey),
                         ),
                         onPressed: () async {
                           _captureImage();
                         }),
-                    // Stack(
-                    //   children: [
-                    //     Container(
-                    //       height: 100,
-                    //       width: 100,
-                    //       decoration: BoxDecoration(
-                    //         shape: BoxShape.circle,
-                    //         image: _pickedImage == null
-                    //             ? const DecorationImage(
-                    //                 image: AssetImage(
-                    //                     'assets/image/defaultpropic.jpeg'),
-                    //                 fit: BoxFit.cover)
-                    //             : DecorationImage(
-                    //                 image: FileImage(state.img!),
-                    //                 fit: BoxFit.cover),
-                    //         border: Border.all(
-                    //           color:
-                    //               Colors.black, // Set the color of the border
-                    //           width: .5, // Set the width of the border
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Positioned(
-                    //         left: 70,
-                    //         bottom: 5,
-                    //         child: InkWell(
-                    //             onTap: () {
-                    //               _pickImage(ImageSource.camera);
-                    //             },
-                    //             child: const Icon(Icons.add_a_photo)))
-                    //   ],
-                    // ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -201,15 +163,14 @@ class _ScreenprofileState extends State<Screenprofile> {
                     ),
                     ElevatedButton(
                         onPressed: () async {
-                          if (onValidate()) {
+                          if (onValidate() && state.img != '') {
                             if (widget.isEdited == true) {
                               if (state.selectedUserIndex != -1) {
                                 context.read<ScreenProfileBloc>().add(EditUser(
-                                      idx: state.selectedUserIndex,
-                                      name: state.name,
-                                      age: state.age,
-                                      img: state.img!
-                                    ));
+                                    idx: state.selectedUserIndex,
+                                    name: state.name,
+                                    age: state.age,
+                                    img: state.img!));
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -226,15 +187,17 @@ class _ScreenprofileState extends State<Screenprofile> {
                                       builder: (context) =>
                                           const ScreenHome()));
                             }
-                          }
-                          // else if (onValidate()) {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text('add image')));
-                          // }
-                          else {
+                          } else if (state.img == '' && !onValidate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('add complete details')));
+                          } else if (state.img == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('add image')));
+                            print('not validated');
+                          } else if (!onValidate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('add details')));
-                            print('not validated');
                           }
                         },
                         child: const Text('Submit'))
